@@ -151,6 +151,26 @@ body {
     box-shadow: 0 0 0 3px rgba(16, 101, 174, 0.15);
 }
 
+.estado{
+    width: 100%;
+
+    padding: 12px;
+
+    background-color: #ffffff;
+
+    border: 2px solid var(--cor-botao2);
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    color: var(--texto-escuro);
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
 
 /* OPÇÕES*/
 
