@@ -147,7 +147,7 @@ ul.lista {
     font-size: 15px;
 }
 
-ul.menu {
+nav ul.menu {
     
     background-color: var(--cor-fundo-top);
     width: 100%;
