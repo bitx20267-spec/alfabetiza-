@@ -147,7 +147,7 @@ ul.lista {
     font-size: 15px;
 }
 
-nav ul.menu {
+ul.menu {
     padding: 0px 4px 0px 4px;
     background-color: var(--cor-fundo-top);
     width: 100%;
