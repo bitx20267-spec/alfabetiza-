@@ -1,0 +1,131 @@
+:root {
+    --cor-fundo-top: #177ea4;
+    --cor-fundo-bottom: #0f3f67;
+    --caixa-texto: #f2eeee;
+    --texto-escuro: #000000;
+    --texto-claro: #ffffff;
+    --cor-botao1: #469CB8;
+    --cor-botao2: #173E56;
+    --cor-botao3: hsl(207, 47%, 69%);
+    --cor-alerta1: #f04444;
+    --cor-alerta2: #78f044;
+
+    font-family: 'Arial', sans-serif, Helvetica, Roboto, Inter, Verdana, Tahoma;
+}
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    padding: 1.5% 0%;
+    border-bottom: 0.3vh solid var(--caixa-texto);
+    background: var(--cor-fundo-bottom);
+    box-shadow: 0px 0px 15px var(--texto-claro);
+}
+
+.cabecalho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 70%;
+}
+
+.voltar {
+
+    background: var(--cor-botao2);
+    box-shadow: inset 4px 4px 6px var(--cor-botao1), inset -1px -1px 3px var(--cor-botao3);
+    border-radius: 2vh;
+    opacity: 0.9;
+    padding: 8px 15px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--texto-claro);
+
+}
+
+.voltar:active {
+    background: var(--cor-botao1);
+    box-shadow: inset 4px 4px 6px var(--cor-botao3), inset -2px -2px 8px var(--cor-botao2);
+}
+
+button {
+    background: none;
+    border: none;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20vh auto;
+    margin: 0 10%;
+    background: #f2eeee;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-top: 2%;
+    padding: 5% 10%;
+    background: var(--caixa-texto);
+}
+
+p {
+    font-size: 1.5rem;
+    padding-left: 2vh;
+    padding-top: 3vh;
+    color: var(--cor-botao2);
+    letter-spacing: 1px;
+}
+
+iframe {
+    width: 100%;
+    height: 70vh;
+    border-radius: 5vh;
+    box-shadow: 0px 0px 10px;
+}
+
+@media (max-width: 920px) {
+
+    header .cabecalho {
+        width: 80%;
+        font-size: 2vh;
+        margin: 0 10%;
+    }
+
+    .cards {
+        margin: 2vh 0;
+    }
+
+    .card iframe {
+        width: 100%;
+        height: 45vw;
+    }
+
+}
+
+@media (max-width: 720px) {
+
+    .card iframe {
+        width: 100%;
+        height: 35vw;
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .card iframe {
+        width: 100%;
+        height: 25vw;
+    }
+
+}
