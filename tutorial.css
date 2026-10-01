@@ -12,12 +12,11 @@
 
     font-family: 'Arial', sans-serif, Helvetica, Roboto, Inter, Verdana, Tahoma;
 }
-/*
+
 body {
     margin: 0;
     box-sizing: border-box;
 }
-*/
 header {
     display: block;
     justify-content: center;
