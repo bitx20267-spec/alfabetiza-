@@ -94,7 +94,7 @@ iframe {
 
 @media (max-width: 920px) {
 
-    header .cabecalho {
+    .cabecalho {
         width: 80%;
         font-size: 2vh;
         margin: 0 10%;
