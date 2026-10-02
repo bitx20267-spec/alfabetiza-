@@ -19,6 +19,7 @@ body {
 }
 header {
     display: block;
+    margin: 0;
     justify-content: center;
     width: 100%;
     position: fixed;
