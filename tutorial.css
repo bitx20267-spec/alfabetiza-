@@ -21,7 +21,7 @@ body {
     flex-direction: column;
 }
 header {
-    display: block;
+    display: flex;
     margin: 0;
     justify-content: center;
     width: 100%;
@@ -29,7 +29,7 @@ header {
     padding: 1.5% 0%;
     border-bottom: 0.3vh solid var(--caixa-texto);
     background: var(--cor-fundo-bottom);
-    /*box-shadow: 0px 0px 15px var(--texto-claro);*/
+    box-shadow: 0px 0px 15px var(--texto-claro);
 }
 
 .cabecalho {
@@ -67,8 +67,8 @@ main {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 20vh auto;
-    margin: 0 10%;
+    padding: 20vh 0;
+    margin: 5% 10%;
     background: #f2eeee;
 }
 
