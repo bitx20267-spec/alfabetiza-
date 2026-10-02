@@ -21,7 +21,7 @@ body {
 }
 
 header {
-    display: flex;
+    display: flexbox;
     justify-content: center;
     width: 100%;
     position: fixed;
@@ -64,8 +64,8 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 5% 10% 0.2vh 10%;
-    padding-top: 6.5vh;
+    margin: 0 10% 0.2vh 10%;
+    padding-top: 20vh;
     width: 80%;
 }
 .cards{
