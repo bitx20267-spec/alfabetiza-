@@ -168,7 +168,3 @@ nav ul.menu li a:hover {
     color: var(--cor-alerta2);
 }
 
-nav ul.menu li a:hover {
-
-    text-shadow: 2px 2px 8px #000000;
-}
