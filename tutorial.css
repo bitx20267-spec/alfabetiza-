@@ -62,7 +62,7 @@ button {
 }
 
 main {
-    display: flex;
+    display: block;
     justify-content: center;
     flex-direction: column;
     padding: 20vh auto;
