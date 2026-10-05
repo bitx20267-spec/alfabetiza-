@@ -91,9 +91,18 @@ main section div.lista {
     box-shadow: 0px 0px 6px var(--cor-botao2) ;
     border-radius: 0px 15px 15px 0px;
     padding: 3px;
-    gap: 3px;
+    gap: 3px;    
+}
+
+a{
+    color: var(--cor-fundo-bottom);
+    font-weight: 500;
     text-decoration: none;
 }
+a:visited{
+    color: none;
+}
+
 footer{
     padding: 0.5vh 0 3vh 0;
     display: flex;
