@@ -62,10 +62,10 @@ button {
 }
 
 main {
-    display: block;
+    display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 20vh auto;
+    padding: 20vh 5%;
     margin: 0 10%;
     background: #f2eeee;
 }
