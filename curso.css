@@ -1,0 +1,140 @@
+:root {
+    --cor-fundo-top: #177ea4;
+    --cor-fundo-bottom: #0f3f67;
+    --caixa-texto: #f2eeee;
+    --texto-escuro: #000000;
+    --texto-claro: #ffffff;
+    --cor-botao1: #469CB8;
+    --cor-botao2: #173E56;
+    --cor-botao3: hsl(207, 47%, 69%);
+    --cor-alerta1: #f04444;
+    --cor-alerta2: #78f044;
+
+    font-family: 'Arial', sans-serif, Helvetica, Roboto, Inter, Verdana, Tahoma;
+}
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position:fixed;
+    padding: 1% 0%;
+    border-bottom: 0.3vh solid var(--caixa-texto);
+    background: var(--cor-fundo-bottom);
+    box-shadow: 0px 0px 15px var(--texto-claro);
+    color: var(--texto-claro);
+}
+.cabecalho {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 100%;   
+    gap: 60%;
+}
+
+.voltar{
+    
+    background: var(--cor-botao2);
+    box-shadow: inset 4px 4px 6px var(--cor-botao1), inset -1px -1px 3px var(--cor-botao3);
+    /*box-shadow: inset 4px 4px 6px var(--cor-botao3), inset -2px -2px 8px var(--cor-botao2);*/
+    border-radius: 2vh;
+    opacity: 0.9;
+    padding: 8px 15px;    
+    text-decoration: none;
+    letter-spacing: 1px;
+    color: var(--texto-claro);
+    
+}
+.voltar:active{
+    background: var(--cor-botao1);
+    box-shadow: inset 4px 4px 6px var(--cor-botao3), inset -2px -2px 8px var(--cor-botao2);
+}
+
+button{
+    background-color: var(--cor-botao2);
+    border: none;
+    cursor: pointer;
+}
+
+main{
+    background: var(--caixa-texto);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: auto 10% 0.2vh 10%;
+    padding-top: 16vh;
+    padding-bottom: 2vh;
+    width: 80%;
+}
+.card_aulas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+
+}
+.card_aulas img{
+    width: 30px;
+}
+
+main section div.lista {
+    display: flex;
+    margin: 1vh 0 ;
+    width: auto;
+    background: #5eaeba;
+    align-items: center;    
+    box-shadow: 0px 0px 6px var(--cor-botao2) ;
+    border-radius: 0px 15px 15px 0px;
+    padding: 3px;
+    gap: 3px;
+    text-decoration: none;
+}
+footer{
+    padding: 0.5vh 0 3vh 0;
+    display: flex;
+    justify-content: center;
+    color: var(--texto-claro);
+}
+
+@media (max-width:800px){
+    .cabecalho{ 
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        font-size: 2.6vh;
+        gap: 8vh;
+    }
+    main{
+        padding-top: 12vh;
+    }
+    
+@media (max-width:420px){
+    .cabecalho{ 
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        font-size: 2vh;
+        gap: 10vh;
+    }
+    main{
+        padding-top: 12vh;
+    }
+}
+}
+
+
+/*area da pagina lista de tutoriais*/
+.cabecalho_list_tutorial{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    gap: 0%;
+    text-align: center;
+}
