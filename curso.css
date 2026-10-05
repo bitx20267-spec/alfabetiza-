@@ -22,7 +22,7 @@ header{
     display: flexbox;
     justify-content: center;
     width: 100%;
-    position:fixed;
+    position: fixed;
     padding: 1% 0%;
     border-bottom: 0.3vh solid var(--caixa-texto);
     background: var(--cor-fundo-bottom);
