@@ -130,11 +130,18 @@ footer{
 
 /*area da pagina lista de tutoriais*/
 .cabecalho_list_tutorial{
-    display: flex;
-    flex-direction: row;
+    display: flexbox;
     justify-content: space-between;
     align-items: center;
     width: 80%;
     gap: 0%;
+    text-align: center;
+}
+
+.cabecalho_list{
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     text-align: center;
 }
