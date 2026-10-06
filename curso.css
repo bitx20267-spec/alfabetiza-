@@ -139,7 +139,7 @@ footer{
 
 /*area da pagina lista de tutoriais*/
 .cabecalho_list_tutorial{
-    display: flexbox;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 80%;
