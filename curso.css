@@ -19,7 +19,7 @@ body {
 }
 
 header{
-    display: block;
+    display: flexbox;
     justify-content: center;
     width: 100%;
     position: fixed;
@@ -148,7 +148,7 @@ footer{
 }
 
 .cabecalho_list{
-    display: flexbox;
+    display: block;
     justify-content: center;
     align-items: center;
     width: 100%;
