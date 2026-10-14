@@ -31,11 +31,11 @@ header{
     color: var(--texto-claro);
 }
 .cabecalho {
-    display: flexbox; 
+    display: flex; 
     justify-content: space-between;
     align-items: center;
     width: 80%;   
-    gap: 0;
+    
     
 }
 
