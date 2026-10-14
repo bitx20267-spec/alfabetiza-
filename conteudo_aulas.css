@@ -119,12 +119,12 @@ img{
         width: 55vh;
         height: 35vh;
     }
-    header .cabecalho {
+    .cabecalho {
     display: flex; 
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;  
     font-size: 2vh;
-    gap: 60%;      
+    width: 80%;      
     }
 
     main{
