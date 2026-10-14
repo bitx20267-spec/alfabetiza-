@@ -41,7 +41,7 @@ header {
     
     background: var(--cor-botao2);
     box-shadow: inset 4px 4px 6px var(--cor-botao1), inset -1px -1px 3px var(--cor-botao3);
-    border-radius: 2vh;
+    border-radius: 1.5vh;
     opacity: 0.9;
     padding: 8px 15px;    
     text-decoration: none;
@@ -138,13 +138,11 @@ img{
     margin-left: 10vh;
     }
 
-    .ajuda{
-    margin-right: 8vh;
-    }
+   
 }
 
 @media (max-width: 480px) {
     main{      
-    padding-top: 6vh;
+    padding-top: 5vh;
     }
 }
