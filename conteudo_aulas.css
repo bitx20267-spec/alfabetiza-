@@ -115,13 +115,9 @@ img{
 }
 
 @media (max-width: 680px) {
-    .card iframe{
-        width: 55vh;
-        height: 35vh;
-    }
+    
     .cabecalho {
     display: flex; 
-    justify-content: space-between;
     align-items: center;  
     font-size: 2vh;
     width: 80%;      
@@ -132,12 +128,7 @@ img{
     }
     .cards{
     margin: 0.8vh 0;    
-    }    
-
-    .voltar{
-    margin-left: 10vh;
-    }
-
+    }  
    
 }
 
