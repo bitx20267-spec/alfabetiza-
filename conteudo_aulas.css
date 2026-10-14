@@ -139,7 +139,12 @@ img{
     }
 
     .ajuda{
-        margin-right: 8vh;
+    margin-right: 8vh;
     }
+}
 
+media (max-width: 480px) {
+    main{      
+    padding-top: 6vh;
+    }
 }
