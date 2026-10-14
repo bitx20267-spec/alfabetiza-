@@ -118,25 +118,27 @@ img{
     .card iframe{
         width: 55vh;
         height: 35vh;
-}
-header .cabecalho {
+    }
+    header .cabecalho {
     display: flex; 
     justify-content: center;
     align-items: center;  
     font-size: 2vh;
     gap: 60%;      
-}
+    }
 
-.cards{
-    margin: 0.8vh 0;
-    
-}    
+    main{
+        padding-top: 6vh;
+    }
+    .cards{
+    margin: 0.8vh 0;    
+    }    
 
-.voltar{
+    .voltar{
     margin-left: 10vh;
     }
 
-.ajuda{
+    .ajuda{
         margin-right: 8vh;
     }
 
