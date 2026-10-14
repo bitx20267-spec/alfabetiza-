@@ -70,14 +70,43 @@ main{
 }
 .cards{
     width: 100%;
+    margin: 2vh 0;
 }
+.card_aula{
+    background: var(--caixa-texto);
+}
+
 .card p{
     font-size: 1.5rem;
     padding-left: 2vh;
+    padding-right: 5%;
     padding-top: 3vh;
-    color: var(--texto-claro);
+    color: var(--cor-botao2);
     letter-spacing: 1px;
+    line-height: 1.7rem;
 }
+
+.card{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+h2{
+    font-size: 1.5rem;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 3vh;
+    color: var(--cor-botao2);
+}
+
+img{
+    width: 15%;
+    height: 15%;
+    padding-left: 40%;
+}
+
+
 .card iframe{
     width: 130vh;
     height: 80vh;
@@ -97,9 +126,11 @@ header .cabecalho {
     font-size: 2vh;
     gap: 60%;      
 }
+
 .cards{
-    margin: 2vh 0;
-}
+    margin: 0.8vh 0;
+    
+}    
 
 .voltar{
     margin-left: 10vh;
