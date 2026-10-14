@@ -128,7 +128,7 @@ footer{
     .cabecalho{ 
         display: flex;
         justify-content: space-between;
-        width: 80%;
+        width: 100%;
         font-size: 2vh;
         
     }
@@ -144,7 +144,7 @@ footer{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
+    width: 100%;
     gap: 0%;
     text-align: center;
 }
