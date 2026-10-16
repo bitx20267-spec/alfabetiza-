@@ -72,7 +72,7 @@ main{
     padding-top: 16vh;
     padding-bottom: 2vh;
     width: 80%;
-    height: 150vh;
+    height: auto;
 }
 .card_aulas{
     display: flex;
