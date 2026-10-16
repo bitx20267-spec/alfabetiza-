@@ -109,7 +109,9 @@ img{
     width: 25%;
     padding-left: 40%;
 }
-
+.icones{
+    width: 25%;
+}
 
 .card iframe{
     width: 130vh;
