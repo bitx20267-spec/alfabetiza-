@@ -32,11 +32,9 @@ header {
 }
 .cabecalho {
     display: flex; 
-    flex-direction: row; 
     justify-content: space-between;
     align-items: center;
-    width: 80%;   
-    padding: 0 10%;
+    width: 80%;  
 }
 .voltar {
     
@@ -55,11 +53,11 @@ header {
     background: var(--cor-botao1);
     box-shadow: inset 4px 4px 6px var(--cor-botao3), inset -2px -2px 8px var(--cor-botao2);
 }
-
+/*
 .ajuda img{
     width: 10vh;
 }
-
+*/
 button{
     background: none;
     border: none;
