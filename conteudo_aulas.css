@@ -112,10 +112,6 @@ img{
     background: black;
     border-radius: 15px;
 }
-.icones{
-    width: 10vh;
-    color: black;
-}
 
 .card iframe{
     width: 130vh;
@@ -139,10 +135,9 @@ img{
     }  
     
    img{
-    width: 20%;
-    height: 20%;
+    width: 50%;
+    height: 50%;
     padding-left: 40%;
-    align-content: center;
     }
 
     
