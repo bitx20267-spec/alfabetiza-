@@ -76,6 +76,7 @@ main{
     display:flex;
     flex-direction: column;
     width: 100%;
+    padding: 1.5vh;
     margin: 2vh 0;
     background: var(--caixa-texto);
 }
@@ -110,12 +111,6 @@ img{
     border-radius: 15px;
 }
 
-.card iframe{
-    width: 130vh;
-    height: 80vh;
-    border-radius: 5vh;
-    box-shadow: 0px 0px 10px;
-}
 
 @media (max-width: 680px) {
     
