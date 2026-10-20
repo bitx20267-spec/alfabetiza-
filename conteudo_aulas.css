@@ -105,6 +105,8 @@ h2{
 }
 
 img{
+    width: 150px;
+    height: 150px;
     padding-left: 40%;
     background: black;
     border-radius: 15px;
