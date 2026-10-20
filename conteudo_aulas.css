@@ -106,10 +106,9 @@ h2{
 }
 
 img{
-    width: 150px;
-    height: 150px;
+    width: 25%;
     padding-left: 40%;
-    background-color: red;
+    color: red;
 }
 .dard > .icones{
     width: 10vh;
