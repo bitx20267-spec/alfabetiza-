@@ -77,11 +77,8 @@ main{
     flex-direction: column;
     width: 100%;
     margin: 2vh 0;
-}
-.card_aula{
     background: var(--caixa-texto);
 }
-
 .card p{
     font-size: 1.5rem;
     padding-left: 2vh;
