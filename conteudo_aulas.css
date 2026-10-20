@@ -104,11 +104,11 @@ h2{
     color: var(--cor-botao2);
 }
 
-.icones{
+img .icones{
     width: 100px;
     height: 100px;
     padding-left: 40%;
-    color: black;
+    background-color: black;
     border-radius: 15px;
 }
 
