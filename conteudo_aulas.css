@@ -107,8 +107,10 @@ h2{
 }
 
 img{
-    width: 100%;
+    width: 5rem;
     padding-left: 40%;
+    background: black;
+    border-radius: 15px;
 }
 .icones{
     width: 10vh;
