@@ -104,7 +104,7 @@ h2{
     color: var(--cor-botao2);
 }
 
-img{
+.icones img{
     width: 150px;
     height: 150px;
     padding-left: 40%;
