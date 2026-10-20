@@ -50,6 +50,7 @@ header{
     text-decoration: none;
     letter-spacing: 1px;
     color: var(--texto-claro);
+    font-size: 2vh;
     
 }
 .voltar:active{
