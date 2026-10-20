@@ -105,10 +105,9 @@ h2{
 }
 
 img .icones{
-    width: 100px;
-    height: 100px;
-    padding-left: 40%;
-    background-color: black;
+    width: 50px;
+    height: 50px;
+    background: black;
     border-radius: 15px;
 }
 
