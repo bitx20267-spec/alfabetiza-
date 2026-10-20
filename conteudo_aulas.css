@@ -106,7 +106,7 @@ h2{
 
 img {
     width: 40vh;
-    margin: 2vh 0 0 20%;
+    margin: 5vh auto;
     background: black;
     border-radius: 1rem;
 }
