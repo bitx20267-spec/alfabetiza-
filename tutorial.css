@@ -91,6 +91,7 @@ li{
     display: flex;
     flex-direction: column;
     justify-content:  center;
+    width: 80%;
 }
 
 iframe {
@@ -140,8 +141,8 @@ iframe {
         height: 25vw;
     }
     img{
-        margin: 3vh auto;
-        width: 40vh;
+        margin: 3vh 10%;
+        width: auto;
     }
     main{
         padding: 5vh 0;
