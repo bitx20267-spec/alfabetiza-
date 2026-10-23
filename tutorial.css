@@ -85,6 +85,7 @@ p {
     padding: 3vh 2vh;
     color: var(--cor-botao2);
     letter-spacing: 1px;
+    width: 80%;
 }
 
 ol{
