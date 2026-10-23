@@ -65,7 +65,7 @@ main {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 20vh 0;
+    padding: 10vh 0;
     margin: 0 10%;
     background: #f2eeee;
 }
@@ -75,7 +75,7 @@ main {
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    
+    margin: 2vh 0;
     padding: 8% 10%;
     background: var(--caixa-texto);
 }
@@ -141,6 +141,10 @@ iframe {
         height: 35vw;
     }
 
+    main{
+        padding: 15vh 0;
+    }
+
     .card {
     display: flex;
     justify-content: center;
@@ -161,9 +165,13 @@ iframe {
         margin: 0 10%;
     }
 
-.cards{
+    .cards{
     margin-top: 3%;
-}
+    }
+
+     main{
+        padding: 20vh 0;
+    }
     
     .card iframe {
         width: 100%;
