@@ -70,7 +70,7 @@ main {
     background: #f2eeee;
 }
 
-.cards {
+.cards .card{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -96,8 +96,6 @@ li{
 }
 img{
         margin: 3vh 10%;
-        
-        width: 40vh;
     }
 
 iframe {
