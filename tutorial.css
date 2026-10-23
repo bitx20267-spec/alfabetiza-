@@ -141,6 +141,16 @@ iframe {
         height: 35vw;
     }
 
+    .card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2%;
+    padding: 3% 0;
+    
+    }
+
 }
 
 @media (max-width: 420px) {
@@ -165,7 +175,7 @@ iframe {
     
     img{
         margin: 3vh 10%;
-        width: auto;
+        
     }
     main{
         padding: 5vh 0;
