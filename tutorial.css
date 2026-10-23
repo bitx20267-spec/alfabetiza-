@@ -133,6 +133,10 @@ iframe {
         width: 100%;
         height: 25vw;
     }
+    img{
+        margin: 3vh 15%;
+        width: auto;
+    }
     main{
         padding: 5vh 0;
     }
