@@ -140,8 +140,8 @@ iframe {
         height: 25vw;
     }
     img{
-        margin: 3vh 15%;
-        width: auto;
+        margin: 3vh auto;
+        width: 40vh;
     }
     main{
         padding: 5vh 0;
