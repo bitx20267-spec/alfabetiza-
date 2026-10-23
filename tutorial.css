@@ -92,11 +92,11 @@ li{
     display: flex;
     flex-direction: column;
     justify-content:  center;
-    width: 90%;
+    
 }
 img{
         margin: 3vh 10%;
-        width: auto;
+        
         width: 40vh;
     }
 
@@ -151,7 +151,7 @@ iframe {
     display: flex;
     flex-direction: column;
     justify-content:  center;
-    width: 90%;
+    width: 100%;
     margin: auto;
     }
     
