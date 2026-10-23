@@ -87,7 +87,7 @@ p {
     letter-spacing: 1px;
 }
 
-li{
+ol{
     display: flex;
     flex-direction: column;
     justify-content:  center;
