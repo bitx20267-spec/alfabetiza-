@@ -196,5 +196,82 @@ iframe {
     main{
         padding: 5vh 0;
     }
+}
 
+/*area da pagina sobre o app*/
+.cabecalhoSobre{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+#alfabetiza{
+    color: var(--texto-claro);
+}
+
+main{
+    display: flex;
+    padding: 12vh 5% 25vh 5%;
+    margin: 0 10%;
+   
+}
+
+.sobre{
+    /*display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8vh;
+    height: auto;
+    padding: 5% 1%;
+    text-align: left;
+    color: var(--cor-botao2); */
+    height: 100vh;    
+    text-align: left;
+    color: var(--cor-botao2);
+    font-size: 1rem;
+}
+.sobre p{
+    margin-top: 0;
+    font-size: 1.3rem;    
+    letter-spacing: 1px;
+}
+header{
+    padding: 1% 0%;
+}
+
+/*---------------------------------------------*/
+
+
+/*pagina bem vindos*/
+#logo{
+    width: 60px;
+    border-radius: 40%;
+}
+main{
+    display: flex;
+    padding: 12vh 5% 25vh 5%;
+    margin: 0 10%;
+   
+}
+
+#bemvindos > p{
+    height: 100vh;    
+    text-align: left;
+    color: var(--cor-botao2);
+    font-size: 2rem;
+}
+#cabecalhoBemVindos{
+    /*display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 80%;
+    font-size: 1rem;
+    gap: 1rem; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    color: var(--texto-claro);
 }
