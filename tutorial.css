@@ -271,7 +271,7 @@ main{
     color: var(--texto-claro);
 }
 @media(max-width: 420px){
-    #bemvindos{
+    .bemvindos{
     padding-top: 12vh;
     }
 }
