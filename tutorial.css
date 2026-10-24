@@ -181,10 +181,9 @@ iframe {
         height: 25vw;
     }
 
-    li{
+    ol{
     display: flex;
     flex-direction: column;
-    justify-content:  center;
     width: 100%;
     margin: 0;
     }
