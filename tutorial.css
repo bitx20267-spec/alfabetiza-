@@ -223,8 +223,9 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 8vh;
+   
     */
+    margin-top: 8vh;
     height: 200vh;    
     text-align: left;
     color: var(--cor-botao2);
@@ -250,7 +251,7 @@ header{
 }
 main{
     display: flex;
-    padding: 12vh 5% 25vh 5%;
+    padding: 15vh 5% 25vh 5%;
     margin: 0 10%;
    
 }
