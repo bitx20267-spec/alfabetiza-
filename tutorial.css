@@ -251,9 +251,13 @@ header{
 }
 main{
     display: flex;
-    padding: 20vh 5% 25vh 5%;
+    padding: 10vh 5% 25vh 5%;
     margin: 0 10%;
    
+}
+
+.bemvindos{
+    padding-top: 10vh;
 }
 
 #bemvindos > p{
