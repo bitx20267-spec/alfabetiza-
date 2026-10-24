@@ -224,11 +224,8 @@ main{
     justify-content: center;
     align-items: center;
     margin-top: 8vh;
-    height: auto;
-    padding: 5% 1%;
-    text-align: left;
-    color: var(--cor-botao2); */
-    height: 100vh;    
+    */
+    height: 300vh;    
     text-align: left;
     color: var(--cor-botao2);
     font-size: 1rem;
