@@ -107,6 +107,9 @@ li{
 img{
     margin: 3vh 10%;
     }
+#ajuda{
+    margin: 0;
+}
 
 iframe {
     width: 100%;
