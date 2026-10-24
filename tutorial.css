@@ -251,7 +251,7 @@ header{
 }
 main{
     display: flex;
-    padding: 15vh 5% 25vh 5%;
+    padding: 20vh 5% 25vh 5%;
     margin: 0 10%;
    
 }
@@ -269,4 +269,9 @@ main{
     width: 80%;
     margin: 0 10%;
     color: var(--texto-claro);
+}
+@media(max-width: 420px){
+    #bemvindos{
+    padding-top: 12vh;
+    }
 }
