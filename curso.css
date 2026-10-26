@@ -118,6 +118,11 @@ a:visited{
     color: none;
 }
 
+a:hover {
+    background-color: var(--cor-botao2);
+    color: var(--texto-claro);
+}
+
 footer{
     padding: 0.5vh 0 3vh 0;
     display: flex;
