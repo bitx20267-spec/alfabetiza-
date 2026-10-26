@@ -98,7 +98,7 @@ main section div.lista {
     gap: 3px;    
 }
 */
-.lista{
+a{
     display: flex;
     margin: 1vh 0 ;
     width: auto;
@@ -108,13 +108,11 @@ main section div.lista {
     border-radius: 0px 15px 15px 0px;
     padding: 3px;
     gap: 3px;     
-}
 
-a{
     color: var(--cor-fundo-bottom);
     font-weight: 500;
     text-decoration: none;
-    align-items: center;
+    
 }
 a:visited{
     color: none;
