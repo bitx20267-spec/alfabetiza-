@@ -85,7 +85,7 @@ main{
 .card_aulas img{
     width: 30px;
 }
-
+/*
 main section div.lista {
     display: flex;
     margin: 1vh 0 ;
@@ -97,7 +97,7 @@ main section div.lista {
     padding: 3px;
     gap: 3px;    
 }
-
+*/
 .lista a{
     display: flex;
     margin: 1vh 0 ;
