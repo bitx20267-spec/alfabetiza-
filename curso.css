@@ -114,6 +114,7 @@ a{
     color: var(--cor-fundo-bottom);
     font-weight: 500;
     text-decoration: none;
+    align-items: center;
 }
 a:visited{
     color: none;
