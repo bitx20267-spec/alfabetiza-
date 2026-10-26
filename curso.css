@@ -98,7 +98,7 @@ main section div.lista {
     gap: 3px;    
 }
 */
-.lista a{
+.lista{
     display: flex;
     margin: 1vh 0 ;
     width: auto;
