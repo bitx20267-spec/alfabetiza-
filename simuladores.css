@@ -42,7 +42,7 @@ header {
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    width: 100%;   
+    width: 80%;   
 }
 .voltar{ 
     
@@ -76,7 +76,7 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: auto 10% 0.2vh 10%;
+    margin: 0 10% 0.2vh 10%;
     padding-top: 3vh;
     background: var(--caixa-texto);
     width: 80%;
