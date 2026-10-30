@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBank PRO | Agendamentos</title>
+    <style>
+        :root {
+            --primary: #820ad1;
+            --secondary: #11c76f;
+            --dark: #121212;
+            --white: #ffffff;
+            --gray: #f0f1f5;
+            --danger: #ff4d4d;
+            --blue: #007aff;
+        }
+
+        #sair{
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 1px 5px;
+            background: hsl(280, 71%, 53%);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #0f0f0f; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: var(--white); width: 100%; max-width: 400px; border-radius: 28px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden; }
+        .header { background-color: var(--primary); color: white; padding: 40px 25px 50px; }
+        .balance-card { padding: 25px; background: white; margin-top: -35px; border-radius: 24px 24px 0 0; }
+        .balance-amount { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin: 5px 0; }
+        
+        .limit-info { font-size: 0.75rem; color: #666; background: var(--gray); padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; margin-top: 5px; }
+        
+        .actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 20px 25px; }
+        .btn-action { display: flex; flex-direction: column; align-items: center; border: none; background: var(--gray); padding: 12px 5px; border-radius: 12px; cursor: pointer; font-size: 0.65rem; font-weight: 700; transition: 0.2s; }
+        .btn-action:hover { background: #e2e3e9; transform: scale(1.05); }
+        .active-btn { background: #e3f2fd; color: var(--blue); }
+
+        .history { padding: 10px 25px 25px; border-top: 1px solid #eee; max-height: 250px; overflow-y: auto; }
+        .transaction { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dotted #ddd; }
+        .status-agendado { font-size: 0.6rem; background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 4px; margin-top: 4px; display: inline-block; }
+        
+        .positive { color: var(--secondary); }
+        .negative { color: var(--danger); }
+        .scheduled { color: var(--blue); }
+
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 100; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #ffffff33; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div id="loader" class="loading-overlay"><div class="spinner"></div><span id="loader-text">Processando...</span></div>
+
+<div class="container">
+    <div class="header">
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+            <a id="sair" href="../simuladores.html">Sair</a>
+            <h2 style="margin:0; letter-spacing: -1px;">DevBank <span style="font-weight: 300; font-size: 0.8rem;">ULTRA</span></h2>
+            <button onclick="resetarConta()" style="background:rgba(255,255,255,0.2); border:none; color:white; border-radius:8px; padding:6px 12px; cursor:pointer; font-size: 0.7rem;">RESET</button>
+        </div>
+    </div>
+
+    <div class="balance-card">
+        <small style="color: #888; text-transform: uppercase; font-size: 0.65rem; font-weight: 700;">Saldo em conta</small>
+        <div class="balance-amount" id="saldoDisplay">R$ 0,00</div>
+        <div class="limit-info"><span>Limite PIX:</span><span id="limiteDisplay">R$ 1.000,00</span></div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-action" onclick="operacao('deposito')">💰<br>Depósito</button>
+        <button class="btn-action" onclick="operacao('saque')">💸<br>Saque</button>
+        <button class="btn-action active-btn" onclick="fluxoPix(false)">💎<br>PIX</button>
+        <button class="btn-action active-btn" onclick="fluxoPix(true)">📅<br>Agendar</button>
+    </div>
+
+    <div class="history">
+        <h4 style="margin: 0 0 10px; color: #333;">Extrato Detalhado</h4>
+        <div id="listaTransacoes"></div>
+    </div>
+</div>
+
+<script>
+    const LIMITE_DIARIO_MAX = 1000.00;
+    let db = JSON.parse(localStorage.getItem('devbank_ultra_v2')) || {
+        saldo: 2000.00,
+        transacoes: [],
+        gastoHoje: 0,
+        ultimaData: new Date().toLocaleDateString()
+    };
+
+    if (db.ultimaData !== new Date().toLocaleDateString()) {
+        db.gastoHoje = 0;
+        db.ultimaData = new Date().toLocaleDateString();
+        salvar();
+    }
+
+    function salvar() {
+        localStorage.setItem('devbank_ultra_v2', JSON.stringify(db));
+        render();
+    }
+
+    function render() {
+        document.getElementById('saldoDisplay').innerText = db.saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('limiteDisplay').innerText = (LIMITE_DIARIO_MAX - db.gastoHoje).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        const lista = document.getElementById('listaTransacoes');
+        lista.innerHTML = db.transacoes.length === 0 ? '<p style="color:#bbb; font-size:0.8rem; text-align:center">Nenhuma atividade.</p>' : '';
+
+        db.transacoes.slice().reverse().forEach(t => {
+            const isPos = t.tipo === 'deposito';
+            const isAgendado = t.status === 'agendado';
+            
+            lista.innerHTML += `
+                <div class="transaction">
+                    <div style="max-width: 65%;">
+                        <strong style="font-size:0.8rem">${t.titulo}</strong><br>
+                        <small style="color:#aaa; font-size:0.65rem">${t.data}</small>
+                        ${isAgendado ? '<br><span class="status-agendado">📅 Agendado</span>' : ''}
+                    </div>
+                    <span class="${isAgendado ? 'scheduled' : (isPos ? 'positive' : 'negative')}" style="font-size:0.85rem; font-weight:700">
+                        ${isAgendado ? '' : (isPos ? '+' : '-')} ${t.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </span>
+                </div>
+            `;
+        });
+    }
+
+    async function fluxoPix(isAgendamento) {
+        const chave = prompt("Informe a chave PIX:");
+        if (!chave) return;
+
+        const valorInput = prompt("Valor do PIX:");
+        const valor = parseFloat(valorInput?.replace(',', '.'));
+
+        if (!valor || valor <= 0) return alert("Valor inválido.");
+
+        let dataAgendamento = "";
+        if (isAgendamento) {
+            dataAgendamento = prompt("Para qual data? (ex: 25/12/2026)");
+            if (!dataAgendamento) return;
+        } else {
+            if (valor > db.saldo) return alert("Saldo insuficiente.");
+            if ((db.gastoHoje + valor) > LIMITE_DIARIO_MAX) return alert("Limite diário excedido.");
+        }
+
+        const loader = document.getElementById('loader');
+        loader.style.display = 'flex';
+        await new Promise(r => setTimeout(r, 1200));
+        loader.style.display = 'none';
+
+        const msgConfirm = isAgendamento 
+            ? `Agendar PIX de R$ ${valor.toFixed(2)} para ${dataAgendamento}?`
+            : `Confirmar PIX agora de R$ ${valor.toFixed(2)}?`;
+
+        if (confirm(msgConfirm)) {
+            if (!isAgendamento) {
+                db.saldo -= valor;
+                db.gastoHoje += valor;
+                db.transacoes.push({ titulo: `PIX p/ ${chave}`, tipo: 'pix', valor, data: new Date().toLocaleString('pt-BR'), status: 'concluido' });
+            } else {
+                db.transacoes.push({ titulo: `PIX Agendado: ${chave}`, tipo: 'pix', valor, data: dataAgendamento, status: 'agendado' });
+            }
+            salvar();
+            alert(isAgendamento ? "📅 Agendado com sucesso!" : "✅ PIX enviado!");
+        }
+    }
+
+    function operacao(tipo) {
+        const valorInput = prompt(`Valor para ${tipo}:`);
+        const valor = parseFloat(valorInput?.replace(',', '.'));
+        if (!valor || valor <= 0) return;
+
+        if (tipo === 'saque' && valor > db.saldo) return alert("Saldo insuficiente.");
+        
+        db.saldo += (tipo === 'deposito' ? valor : -valor);
+        db.transacoes.push({ 
+            titulo: tipo === 'deposito' ? "Depósito recebido" : "Saque realizado", 
+            tipo: tipo, valor, data: new Date().toLocaleString('pt-BR'), status: 'concluido' 
+        });
+        salvar();
+    }
+
+    function resetarConta() { if(confirm("Resetar sistema?")) { localStorage.clear(); location.reload(); } }
+    render();
+</script>
+</body>
+</html>

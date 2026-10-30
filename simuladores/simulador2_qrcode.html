@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner de Pagamento Móvel</title>
+    <!-- Biblioteca para leitura de QR Code e Código de Barras via Câmera -->
+    <script src="https://unpkg.com" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app-screen {
+            background: #ffffff;
+            width: 100%;
+            max-width: 360px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            overflow: hidden;
+            text-align: center;
+        }
+        .header {
+            background-color: #6200ee;
+            color: white;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .content {
+            padding: 20px;
+        }
+        .btn {
+            background-color: #6200ee;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 15px;
+        }
+        .btn:hover { background-color: #4b00b4; }
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .btn-secondary:hover { background-color: #d5d5d5; }
+        
+        /* Container da Câmera */
+        #reader {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: none !important;
+            margin-bottom: 15px;
+        }
+        
+        .status-box {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .sucesso { background-color: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+        .info { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    </style>
+</head>
+<body>
+
+    <div class="app-screen">
+        <div class="header">📱 Carteira Digital - Pagar</div>
+        
+        <div class="content">
+            <p id="instrucao">Clique no botão abaixo para escanear o QR Code ou Código de Barras da conta.</p>
+            
+            <!-- Botão para iniciar o fluxo -->
+            <button id="btnIniciar" class="btn" onclick="iniciarCamera()">Ativar Câmera</button>
+            
+            <!-- Janela do visor da Câmera -->
+            <div id="reader" style="display: none;"></div>
+            
+            <button id="btnParar" class="btn btn-secondary" style="display: none;" onclick="pararCamera()">Cancelar Scanner</button>
+
+            <!-- Telas de Status da Simulação -->
+            <div id="statusProcessando" class="status-box info">
+                🔄 Processando dados do pagamento...
+            </div>
+
+            <div id="statusSucesso" class="status-box sucesso">
+                ✅ Pagamento Realizado com Sucesso!<br>
+                <small id="dadosPagamento" style="font-weight: normal; display: block; margin-top: 5px;"></small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let html5QrcodeScanner = null;
+
+        function iniciarCamera() {
+            document.getElementById('reader').style.display = 'block';
+            document.getElementById('btnIniciar').style.display = 'none';
+            document.getElementById('btnParar').style.display = 'block';
+            document.getElementById('instrucao').innerText = 'Aponte a câmera para um QR Code ou Código de Barras.';
+
+            // Configura o leitor para buscar QR Codes e também Códigos de Barras comuns (EAN, Code128, etc)
+            html5QrcodeScanner = new Html5Qrcode("reader");
+            
+            const config = { 
+                fps: 10, 
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0 
+            };
+
+            // Inicia o visor utilizando a câmera traseira do celular ('environment')
+            html5QrcodeScanner.start(
+                { facingMode: "environment" }, 
+                config,
+                onScanSuccess
+            ).catch(err => {
+                alert("Erro ao acessar a câmera: " + err);
+                pararCamera();
+            });
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Interrompe a câmera imediatamente após a leitura
+            pararCamera();
+            
+            // Esconde a instrução inicial
+            document.getElementById('instrucao').style.display = 'none';
+            
+            // Simula o processamento bancário (Loading)
+            const boxProcessando = document.getElementById('statusProcessando');
+            boxProcessando.style.display = 'block';
+
+            setTimeout(() => {
+                boxProcessando.style.display = 'none';
+                
+                // Exibe a tela de sucesso com os dados capturados
+                const boxSucesso = document.getElementById('statusSucesso');
+                const dadosTexto = document.getElementById('dadosPagamento');
+                
+                boxSucesso.style.display = 'block';
+                dadosTexto.innerText = `Conteúdo Lido: ${decodedText}`;
+                
+                // Emite um feedback tátil/sonoro simulado
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]); // Vibração dupla de sucesso
+                }
+            }, 1800); // 1.8 segundos de simulação de processamento
+        }
+
+        function pararCamera() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().then(() => {
+                    limparInterface();
+                }).catch(err => {
+                    console.error("Erro ao parar câmera: ", err);
+                    limparInterface();
+                });
+            } else {
+                limparInterface();
+            }
+        }
+
+        function limparInterface() {
+            document.getElementById('reader').style.display = 'none';
+            document.getElementById('btnIniciar').style.display = 'block';
+            document.getElementById('btnParar').style.display = 'none';
+            document.getElementById('instrucao').style.display = 'block';
+            document.getElementById('instrucao').innerText = 'Clique no botão abaixo para escanear o QR Code ou Código de Barras da conta.';
+        }
+    </script>
+</body>
+</html>

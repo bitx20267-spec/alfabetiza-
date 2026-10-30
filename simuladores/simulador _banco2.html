@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBank Ultra | Full Edition</title>
+    <style>
+        :root {
+            --primary: #820ad1;
+            --secondary: #11c76f;
+            --dark: #121212;
+            --white: #ffffff;
+            --gray: #f0f1f5;
+            --danger: #ff4d4d;
+            --blue: #007aff;
+            --warning: #f39c12;
+        }
+
+         #sair{
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 1px 5px;
+            background: hsl(280, 71%, 53%);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: #0f0f0f; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: var(--white); width: 100%; max-width: 420px; border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden; position: relative; }
+        
+        /* Header */
+        .header { background-color: var(--primary); color: white; padding: 30px 25px 50px; }
+        .balance-card { padding: 25px; background: white; margin-top: -35px; border-radius: 24px 24px 0 0; }
+        .balance-amount { font-size: 2.2rem; font-weight: 800; color: var(--dark); margin: 5px 0; }
+        
+        /* Menu de Ações */
+        .actions-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px 25px 20px; }
+        .btn-action { display: flex; flex-direction: column; align-items: center; border: none; background: var(--gray); padding: 12px 5px; border-radius: 15px; cursor: pointer; font-size: 0.65rem; font-weight: 700; transition: 0.2s; }
+        .btn-action:hover { transform: translateY(-3px); background: #e8e9ed; }
+        .btn-action span { font-size: 1.4rem; margin-bottom: 5px; }
+
+        /* Extrato */
+        .history { padding: 5px 25px 25px; border-top: 8px solid var(--gray); max-height: 350px; overflow-y: auto; }
+        .filters { display: flex; gap: 10px; margin-bottom: 15px; }
+        .filter-btn { border: 1px solid #ddd; background: none; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .transaction { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+        .transaction:hover { background: #fafafa; }
+        
+        .status-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+        .badge-agendado { background: #fff3cd; color: #856404; }
+        .badge-pago { background: #d4edda; color: #155724; }
+
+        /* Cores de Valores */
+        .val-pos { color: var(--secondary); font-weight: 700; }
+        .val-neg { color: var(--danger); font-weight: 700; }
+        .val-wait { color: var(--blue); font-weight: 700; }
+
+        /* Loader */
+        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 1000; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #333; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div id="loader" class="loader"><div class="spinner"></div><p id="loader-msg">Validando código...</p></div>
+
+<div class="container">
+    <div class="header">
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+            <a id="sair" href="../simuladores.html">Sair</a>
+            <h2 style="margin:0">DevBank <span style="font-weight: 200;">ULTRA</span></h2>
+            <button onclick="reset()" style="background:rgba(255,255,255,0.1); border:1px solid white; color:white; border-radius:8px; padding:5px 10px; cursor:pointer; font-size:0.6rem">LIMPAR TUDO</button>
+        </div>
+    </div>
+
+    <div class="balance-card">
+        <small style="color: #888; font-weight: 700;">SALDO DISPONÍVEL</small>
+        <div class="balance-amount" id="saldoDisplay">R$ 0,00</div>
+        <div id="limiteDisplay" style="font-size: 0.7rem; color: #666;">Limite PIX: R$ 1.000,00</div>
+    </div>
+
+    <div class="actions-grid">
+        <button class="btn-action" onclick="fluxoPix(false)"><span>💎</span>PIX</button>
+        <button class="btn-action" onclick="fluxoPix(true)"><span>📅</span>Agendar</button>
+        <button class="btn-action" onclick="pagarBoleto()"><span>📑</span>Boletos</button>
+        <button class="btn-action" onclick="pagarQRCode()"><span>📷</span>QR Code</button>
+        <button class="btn-action" onclick="operacao('deposito')"><span>💵</span>Depósito</button>
+        <button class="btn-action" onclick="operacao('saque')"><span>🏧</span>Saque</button>
+    </div>
+
+    <div class="history">
+        <div class="filters">
+            <button class="filter-btn active" id="f-all" onclick="filtrar('todos')">Tudo</button>
+            <button class="filter-btn" id="f-sche" onclick="filtrar('agendado')">Agendados</button>
+        </div>
+        <div id="extratoLista"></div>
+    </div>
+</div>
+
+<script>
+    // Configurações e Estado
+    const LIMITE_DIARIO = 1000.00;
+    let filtroAtual = 'todos';
+    let db = JSON.parse(localStorage.getItem('devbank_v3')) || {
+        saldo: 3200.00,
+        transacoes: [],
+        gastoHoje: 0,
+        dataReferencia: new Date().toLocaleDateString()
+    };
+
+    // Auto-reset de limite diário
+    if(db.dataReferencia !== new Date().toLocaleDateString()) {
+        db.gastoHoje = 0;
+        db.dataReferencia = new Date().toLocaleDateString();
+        save();
+    }
+
+    function save() {
+        localStorage.setItem('devbank_v3', JSON.stringify(db));
+        render();
+    }
+
+    function render() {
+        document.getElementById('saldoDisplay').innerText = db.saldo.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        document.getElementById('limiteDisplay').innerText = `Limite PIX restante: ${(LIMITE_DIARIO - db.gastoHoje).toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}`;
+
+        const lista = document.getElementById('extratoLista');
+        lista.innerHTML = '';
+
+        let transacoesFiltradas = db.transacoes;
+        if(filtroAtual === 'agendado') transacoesFiltradas = db.transacoes.filter(t => t.status === 'agendado');
+
+        if(transacoesFiltradas.length === 0) {
+            lista.innerHTML = '<center style="color:#999; margin-top:20px; font-size:0.8rem;">Nenhum registro encontrado</center>';
+        }
+
+        transacoesFiltradas.slice().reverse().forEach((t, index) => {
+            const originalIndex = db.transacoes.length - 1 - index;
+            const isAgendado = t.status === 'agendado';
+            const corValor = isAgendado ? 'val-wait' : (t.tipo === 'deposito' ? 'val-pos' : 'val-neg');
+
+            lista.innerHTML += `
+                <div class="transaction" onclick="${isAgendado ? `cancelarAgendamento(${originalIndex})` : ''}">
+                    <div style="max-width:70%">
+                        <div style="font-size:0.85rem; font-weight:600; color:#333">${t.titulo}</div>
+                        <div style="font-size:0.7rem; color:#aaa">${t.data}</div>
+                        <span class="status-badge ${isAgendado ? 'badge-agendado' : 'badge-pago'}">${t.status}</span>
+                        ${isAgendado ? '<div style="font-size:0.6rem; color:var(--danger)">Clique para cancelar</div>' : ''}
+                    </div>
+                    <div class="${corValor}" style="font-size:0.9rem">
+                        ${isAgendado ? '' : (t.tipo === 'deposito' ? '+' : '-')} ${t.valor.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Ações de Transação
+    async function fluxoPix(agendar) {
+        const chave = prompt("Chave PIX (CPF, Celular ou E-mail):");
+        if(!chave) return;
+        const valor = parseFloat(prompt("Valor:").replace(',','.'));
+        
+        if(!validarValor(valor, !agendar)) return;
+
+        let dataTransacao = new Date().toLocaleString('pt-BR');
+        if(agendar) {
+            dataTransacao = prompt("Data do agendamento (DD/MM/AAAA):");
+            if(!dataTransacao) return;
+        }
+
+        await simularProcessamento(agendar ? "Agendando..." : "Enviando PIX...");
+
+        if(confirm(`Confirmar R$ ${valor.toFixed(2)} para ${chave}?`)) {
+            if(!agendar) {
+                db.saldo -= valor;
+                db.gastoHoje += valor;
+            }
+            db.transacoes.push({
+                titulo: `PIX para ${chave}`,
+                valor,
+                tipo: 'saida',
+                status: agendar ? 'agendado' : 'concluido',
+                data: dataTransacao
+            });
+            save();
+        }
+    }
+
+    async function pagarBoleto() {
+        const codigo = prompt("Digite ou cole o código de barras (47 dígitos):");
+        if(!codigo || codigo.length < 10) return alert("Código inválido!");
+
+        const valor = parseFloat(prompt("Valor do boleto:").replace(',','.'));
+        if(!validarValor(valor, true)) return;
+
+        await simularProcessamento("Validando boleto...");
+        
+        if(confirm(`Pagar título de R$ ${valor.toFixed(2)}?`)) {
+            db.saldo -= valor;
+            db.transacoes.push({
+                titulo: "Pagamento de Boleto",
+                valor,
+                tipo: 'saida',
+                status: 'concluido',
+                data: new Date().toLocaleString('pt-BR')
+            });
+            save();
+            alert("Boleto pago com sucesso!");
+        }
+    }
+
+    async function pagarQRCode() {
+        alert("Câmera ativada... (Simulação)");
+        await simularProcessamento("Lendo QR Code...");
+        const valor = 120.50; // Valor simulado do QR Code
+        if(confirm(`QR Code lido: Estabelecimento X\nValor: R$ ${valor}\nConfirmar?`)) {
+            if(!validarValor(valor, true)) return;
+            db.saldo -= valor;
+            db.transacoes.push({
+                titulo: "Pagamento via QR Code",
+                valor,
+                tipo: 'saida',
+                status: 'concluido',
+                data: new Date().toLocaleString('pt-BR')
+            });
+            save();
+        }
+    }
+
+    function cancelarAgendamento(index) {
+        if(confirm("Deseja cancelar este agendamento?")) {
+            db.transacoes.splice(index, 1);
+            save();
+            alert("Agendamento removido.");
+        }
+    }
+
+    // Utilitários
+    function validarValor(v, checarSaldo) {
+        if(!v || v <= 0) { alert("Valor inválido"); return false; }
+        if(checarSaldo && v > db.saldo) { alert("Saldo insuficiente"); return false; }
+        if(checarSaldo && (db.gastoHoje + v) > LIMITE_DIARIO) { alert("Limite diário excedido!"); return false; }
+        return true;
+    }
+
+    async function simularProcessamento(msg) {
+        const l = document.getElementById('loader');
+        document.getElementById('loader-msg').innerText = msg;
+        l.style.display = 'flex';
+        await new Promise(r => setTimeout(r, 1500));
+        l.style.display = 'none';
+    }
+
+    function filtrar(tipo) {
+        filtroAtual = tipo;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if(tipo === 'todos') document.getElementById('f-all').classList.add('active');
+        else document.getElementById('f-sche').classList.add('active');
+        render();
+    }
+
+    function operacao(tipo) {
+        const v = parseFloat(prompt(`Valor para ${tipo}:`).replace(',','.'));
+        if(!v || v <= 0) return;
+        if(tipo === 'saque' && v > db.saldo) return alert("Saldo insuficiente");
+        
+        db.saldo += (tipo === 'deposito' ? v : -v);
+        db.transacoes.push({
+            titulo: tipo === 'deposito' ? 'Depósito em dinheiro' : 'Saque no caixa',
+            valor: v,
+            tipo: tipo === 'deposito' ? 'deposito' : 'saida',
+            status: 'concluido',
+            data: new Date().toLocaleString('pt-BR')
+        });
+        save();
+    }
+
+    function reset() { if(confirm("Apagar histórico e resetar saldo?")) { localStorage.clear(); location.reload(); } }
+
+    render();
+</script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Compra Online</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #f7f9fc; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        
+        .ecommerce-container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        #sair{
+            font-size: 1.2rem;
+            color: black;
+            background-color: #7c9c8d;
+            padding: 3px 8px;
+            margin-bottom: 3vh;
+            text-decoration: none;
+            border-radius: 1vh;
+            border: 2px solid color(rgb(155, 12, 8));
+        }
+        #sair:hover{
+            background: #38a169;
+        }
+
+        @media (max-width: 768px) {
+            .ecommerce-container { grid-template-columns: 1fr; }
+        }
+
+        .vitrine, .carrinho-checkout {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        h2 { margin-top: 0; color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        /* Grid de Produtos */
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .produto-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .produto-img {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .produto-nome { font-weight: 600; font-size: 0.95rem; color: #4a5568; }
+        .produto-preco { color: #2b6cb0; font-weight: bold; margin: 8px 0; }
+
+        .btn {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn:hover { background-color: #2b6cb0; }
+        .btn-sucesso { background-color: #38a169; }
+        .btn-sucesso:hover { background-color: #2f855a; }
+
+        /* Itens do Carrinho */
+        .lista-carrinho { list-style: none; padding: 0; margin: 0 0 20px 0; }
+        .item-carrinho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 0.9rem;
+        }
+        .item-carrinho-detalhes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+            gap: 8px;
+        }
+        .btn-remover {
+            width: auto;
+            flex-shrink: 0;
+            padding: 6px 10px;
+            background-color: #e53e3e;
+        }
+        .btn-remover:hover { background-color: #c53030; }
+
+        .total-box {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding-top: 10px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        /* Seção de Checkout */
+        .metodo-pagamento { margin-top: 15px; }
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e0;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .status-compra {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .aguardando { background-color: #feebc8; color: #c05621; }
+        .pago { background-color: #c6f6d5; color: #22543d; }
+
+        .pix-pagamento {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #qrcodePix {
+            display: flex;
+            justify-content: center;
+            margin: 16px auto;
+        }
+        #chavePix {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            margin: 8px 0;
+            color: #2d3748;
+        }
+        .pix-feedback {
+            min-height: 1.25em;
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+        .btn-confirmar-pix {
+            margin-top: 12px;
+            background-color: #38a169;
+        }
+        .boleto-pagamento {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #codigoBarrasBoleto {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin: 16px auto;
+        }
+        #linhaDigitavelBoleto {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            margin: 8px 0;
+            color: #2d3748;
+        }
+        .boleto-feedback {
+            min-height: 1.25em;
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+        .cartao-pagamento {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+        }
+        .cartao-pagamento label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: 600;
+        }
+        .cartao-pagamento input,
+        .cartao-pagamento select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+        }
+        .cartao-campos-duplos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .cartao-aviso,
+        .cartao-feedback {
+            font-size: 0.9rem;
+        }
+        .cartao-feedback {
+            min-height: 1.25em;
+            color: #b91c1c;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js" defer></script>
+</head>
+<body>
+
+    <div class="ecommerce-container">
+        
+        <!-- Vitrine de Produtos -->
+        <div class="vitrine">
+            <h2>🛒 Vitrine de Produtos</h2>
+            <a id="sair" href="../simuladores.html">sair</a>
+            <div class="produtos-grid" id="vitrineProdutos">
+                <!-- Inserido dinamicamente via JS -->
+            </div>
+        </div>
+
+        <!-- Resumo do Carrinho e Pagamento -->
+        <div class="carrinho-checkout">
+            <h2>🛍️ Seu Carrinho</h2>
+            <ul class="lista-carrinho" id="itensCarrinho">
+                <li style="color: #718096; text-align: center; padding: 20px 0;">O carrinho está vazio</li>
+            </ul>
+
+            <div class="total-box">
+                <span>Total:</span>
+                <span id="valorTotal">R\$ 0,00</span>
+            </div>
+
+            <div id="checkoutForm" style="display: none;">
+                <h3>💳 Forma de Pagamento</h3>
+                <select id="formaPagamento">
+                    <option value="pix">Pix (confirmação simulada)</option>
+                    <option value="boleto">Boleto Bancário (1 a 2 dias úteis)</option>
+                    <option value="cartao">Cartão de Crédito</option>
+                </select>
+                <button class="btn btn-sucesso" onclick="finalizarPedido()">Finalizar Compra</button>
+            </div>
+
+            <!-- Feedbacks de Status -->
+            <div id="statusCompra" class="status-compra"></div>
+            <section id="pixPagamento" class="pix-pagamento" aria-labelledby="tituloPix">
+                <h3 id="tituloPix">Pague com Pix</h3>
+                <p>Escaneie o QR Code pelo aplicativo do seu banco:</p>
+                <div id="qrcodePix" role="img" aria-label="QR Code do pagamento Pix"></div>
+                <label for="chavePix">Ou copie e cole esta chave Pix:</label>
+                <input id="chavePix" type="text" readonly>
+                <button id="btnCopiarPix" class="btn" type="button" onclick="copiarChavePix()">Copiar chave Pix</button>
+                <p>Chave de demonstração: use apenas para testar este fluxo; não faça pagamentos reais.</p>
+                <p id="feedbackPix" class="pix-feedback" aria-live="polite"></p>
+                <button class="btn btn-confirmar-pix" type="button" onclick="confirmarPagamentoPix()">
+                    Simular pagamento recebido
+                </button>
+            </section>
+            <section id="boletoPagamento" class="boleto-pagamento" aria-labelledby="tituloBoleto">
+                <h3 id="tituloBoleto">Boleto de demonstração</h3>
+                <p>Use o código de barras ou copie a linha digitável:</p>
+                <svg id="codigoBarrasBoleto" role="img" aria-label="Código de barras do boleto de demonstração"></svg>
+                <label for="linhaDigitavelBoleto">Linha digitável:</label>
+                <input id="linhaDigitavelBoleto" type="text" readonly>
+                <button class="btn" type="button" onclick="copiarLinhaDigitavel()">Copiar linha digitável</button>
+                <p id="feedbackBoleto" class="boleto-feedback" aria-live="polite"></p>
+                <p>Este boleto é apenas para demonstração. Não faça pagamentos reais.</p>
+            </section>
+            <section id="cartaoPagamento" class="cartao-pagamento" aria-labelledby="tituloCartao">
+                <h3 id="tituloCartao">Pagamento com cartão de crédito</h3>
+                <p class="cartao-aviso">Preencha somente com dados fictícios. Nada será enviado ou armazenado.</p>
+                <form id="formularioCartao" onsubmit="simularPagamentoCartao(event)" autocomplete="off">
+                    <label for="nomeTitular">Nome impresso no cartão</label>
+                    <input id="nomeTitular" name="nomeTitular" type="text" minlength="3" maxlength="60"
+                        placeholder="Ex.: Cliente de Demonstração" required>
+
+                    <label for="numeroCartao">Número do cartão</label>
+                    <input id="numeroCartao" name="numeroCartao" type="text" inputmode="numeric"
+                        pattern="[0-9 ]{16,19}" maxlength="19" placeholder="0000 0000 0000 0000" required>
+
+                    <div class="cartao-campos-duplos">
+                        <div>
+                            <label for="validadeCartao">Validade (MM/AA)</label>
+                            <input id="validadeCartao" name="validadeCartao" type="text" inputmode="numeric"
+                                pattern="(0[1-9]|1[0-2])/[0-9]{2}" maxlength="5" placeholder="12/30" required>
+                        </div>
+                        <div>
+                            <label for="cvvCartao">Código de segurança</label>
+                            <input id="cvvCartao" name="cvvCartao" type="password" inputmode="numeric"
+                                pattern="[0-9]{3,4}" minlength="3" maxlength="4" placeholder="123" required>
+                        </div>
+                    </div>
+
+                    <label for="parcelasCartao">Parcelas</label>
+                    <select id="parcelasCartao" name="parcelasCartao">
+                        <option value="1">1x sem juros</option>
+                        <option value="2">2x sem juros</option>
+                        <option value="3">3x sem juros</option>
+                        <option value="6">6x sem juros</option>
+                    </select>
+                    <p id="feedbackCartao" class="cartao-feedback" aria-live="polite"></p>
+                    <button class="btn btn-sucesso" type="submit">Simular pagamento</button>
+                </form>
+            </section>
+        </div>
+
+    </div>
+
+    <script>
+        // Banco de dados simulado de produtos
+        const listaProdutos = [
+            { id: 1, nome: "Smartphone Pro", preco: 2499.00, icone: "📱" },
+            { id: 2, nome: "Fone de Ouvido Bluetooth", preco: 299.90, icone: "🎧" },
+            { id: 3, nome: "Relógio Inteligente", preco: 550.00, icone: "⌚" },
+            { id: 4, nome: "Carregador Rápido", preco: 89.90, icone: "🔌" }
+        ];
+
+        const CHAVE_PIX = "simulador@app.com.br";
+        let carrinho = [];
+
+        // Inicializa a vitrine de produtos na tela
+        function carregarVitrine() {
+            const grid = document.getElementById('vitrineProdutos');
+            grid.innerHTML = listaProdutos.map(prod => `
+                <div class="produto-card">
+                    <div class="produto-img">${prod.icone}</div>
+                    <div class="produto-nome">${prod.nome}</div>
+                    <div class="produto-preco">R$ ${prod.preco.toFixed(2).replace('.', ',')}</div>
+                    <button class="btn" onclick="adicionarAoCarrinho(${prod.id})">Adicionar</button>
+                </div>
+            `).join('');
+        }
+
+        function adicionarAoCarrinho(id) {
+            const produto = listaProdutos.find(p => p.id === id);
+            carrinho.push(produto);
+            atualizarInterfaceCarrinho();
+            
+            // Esconde status de compras anteriores se adicionar novos itens
+            esconderPagamentos();
+        }
+
+        function atualizarInterfaceCarrinho() {
+            const listaHtml = document.getElementById('itensCarrinho');
+            const totalHtml = document.getElementById('valorTotal');
+            const checkoutForm = document.getElementById('checkoutForm');
+
+            if (carrinho.length === 0) {
+                listaHtml.innerHTML = `<li style="color: #718096; text-align: center; padding: 20px 0;">O carrinho está vazio</li>`;
+                totalHtml.innerText = "R\$ 0,00";
+                checkoutForm.style.display = 'none';
+                return;
+            }
+
+            // Renderiza itens
+            listaHtml.innerHTML = carrinho.map((item, indice) => `
+                <li class="item-carrinho">
+                    <div class="item-carrinho-detalhes">
+                        <span>${item.icone} ${item.nome}</span>
+                        <strong>R$ ${item.preco.toFixed(2).replace('.', ',')}</strong>
+                    </div>
+                    <button class="btn btn-remover" type="button"
+                        aria-label="Remover ${item.nome} do carrinho"
+                        onclick="removerDoCarrinho(${indice})">Remover</button>
+                </li>
+            `).join('');
+
+            // Calcula total
+            const total = carrinho.reduce((soma, item) => soma + item.preco, 0);
+            totalHtml.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            
+            // Mostra o formulário de pagamento
+            checkoutForm.style.display = 'block';
+        }
+
+        function removerDoCarrinho(indice) {
+            if (indice < 0 || indice >= carrinho.length) {
+                return;
+            }
+
+            carrinho.splice(indice, 1);
+            atualizarInterfaceCarrinho();
+            esconderPagamentos();
+        }
+
+        function esconderPagamentos() {
+            document.getElementById('statusCompra').style.display = 'none';
+            document.getElementById('pixPagamento').style.display = 'none';
+            document.getElementById('boletoPagamento').style.display = 'none';
+            document.getElementById('cartaoPagamento').style.display = 'none';
+        }
+
+        function finalizarPedido() {
+            const forma = document.getElementById('formaPagamento').value;
+            const statusBox = document.getElementById('statusCompra');
+            const total = carrinho.reduce((soma, item) => soma + item.preco, 0);
+
+            statusBox.style.display = 'block';
+            
+            if (forma === 'pix') {
+                document.getElementById('boletoPagamento').style.display = 'none';
+                statusBox.className = "status-compra aguardando";
+                statusBox.innerHTML = `⏳ Pedido Gerado!<br>Aguardando pagamento via Pix no valor de R$ ${total.toFixed(2).replace('.', ',')}.`;
+                mostrarPagamentoPix(total);
+
+            } else if (forma === 'boleto') {
+                document.getElementById('pixPagamento').style.display = 'none';
+                statusBox.className = "status-compra aguardando";
+                statusBox.innerHTML = `🧾 Boleto de demonstração gerado no valor de R$ ${total.toFixed(2).replace('.', ',')}.`;
+                mostrarBoleto(total);
+                limparCarrinho();
+
+            } else {
+                document.getElementById('pixPagamento').style.display = 'none';
+                document.getElementById('boletoPagamento').style.display = 'none';
+                const formularioCartao = document.getElementById('formularioCartao');
+                formularioCartao.reset();
+                document.getElementById('feedbackCartao').textContent = '';
+                document.getElementById('cartaoPagamento').style.display = 'block';
+                statusBox.className = "status-compra aguardando";
+                statusBox.innerHTML = `💳 Informe os dados fictícios do cartão para simular o pagamento de R$ ${total.toFixed(2).replace('.', ',')}.`;
+            }
+        }
+
+        function simularPagamentoCartao(event) {
+            event.preventDefault();
+            const formulario = document.getElementById('formularioCartao');
+            const numeroCartao = document.getElementById('numeroCartao');
+            const feedback = document.getElementById('feedbackCartao');
+            const digitosCartao = numeroCartao.value.replace(/\D/g, '');
+
+            numeroCartao.setCustomValidity(
+                digitosCartao.length === 16 ? '' : 'Informe exatamente 16 dígitos fictícios.'
+            );
+
+            if (!formulario.reportValidity()) {
+                feedback.textContent = 'Confira os campos destacados e use apenas informações fictícias.';
+                return;
+            }
+
+            const parcelas = document.getElementById('parcelasCartao').value;
+            const statusBox = document.getElementById('statusCompra');
+            statusBox.className = 'status-compra pago';
+            statusBox.innerHTML = `✅ Pagamento de demonstração aprovado em ${parcelas}x. Nenhum dado de cartão foi enviado.`;
+            document.getElementById('cartaoPagamento').style.display = 'none';
+            formulario.reset();
+            limparCarrinho();
+        }
+
+        function campoPix(id, valor) {
+            return `${id}${String(valor.length).padStart(2, '0')}${valor}`;
+        }
+
+        function calcularCrc16(texto) {
+            let crc = 0xFFFF;
+
+            for (const caractere of texto) {
+                crc ^= caractere.charCodeAt(0) << 8;
+                for (let bit = 0; bit < 8; bit += 1) {
+                    crc = crc & 0x8000 ? (crc << 1) ^ 0x1021 : crc << 1;
+                }
+                crc &= 0xFFFF;
+            }
+
+            return crc.toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function criarPayloadPix(valor) {
+            const contaPix = campoPix('00', 'BR.GOV.BCB.PIX') + campoPix('01', CHAVE_PIX);
+            const dadosAdicionais = campoPix('05', '***');
+            const campos = [
+                campoPix('00', '01'),
+                campoPix('26', contaPix),
+                campoPix('52', '0000'),
+                campoPix('53', '986'),
+                campoPix('54', valor.toFixed(2)),
+                campoPix('58', 'BR'),
+                campoPix('59', 'SIMULADOR'),
+                campoPix('60', 'SAO PAULO'),
+                campoPix('62', dadosAdicionais),
+            ].join('') + '6304';
+
+            return campos + calcularCrc16(campos);
+        }
+
+        function mostrarPagamentoPix(valor) {
+            const pixPagamento = document.getElementById('pixPagamento');
+            const qrcode = document.getElementById('qrcodePix');
+
+            pixPagamento.style.display = 'block';
+            document.getElementById('chavePix').value = CHAVE_PIX;
+            document.getElementById('feedbackPix').textContent = '';
+            qrcode.replaceChildren();
+
+            if (typeof QRCode === 'undefined') {
+                document.getElementById('feedbackPix').textContent =
+                    'Não foi possível carregar o gerador de QR Code. Você ainda pode copiar a chave Pix.';
+                return;
+            }
+
+            new QRCode(qrcode, {
+                text: criarPayloadPix(valor),
+                width: 200,
+                height: 200,
+                correctLevel: QRCode.CorrectLevel.M,
+            });
+        }
+
+        async function copiarChavePix() {
+            const campoChave = document.getElementById('chavePix');
+            const feedback = document.getElementById('feedbackPix');
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(CHAVE_PIX);
+                } else {
+                    campoChave.focus();
+                    campoChave.select();
+                    if (!document.execCommand('copy')) {
+                        throw new Error('O navegador não conseguiu copiar a chave Pix.');
+                    }
+                }
+                feedback.textContent = 'Chave Pix copiada. Cole-a no aplicativo do seu banco.';
+            } catch (erro) {
+                console.error('Erro ao copiar a chave Pix:', erro);
+                feedback.textContent = 'Não foi possível copiar. Selecione a chave acima e copie manualmente.';
+            }
+        }
+
+        function confirmarPagamentoPix() {
+            const statusBox = document.getElementById('statusCompra');
+            statusBox.className = 'status-compra pago';
+            statusBox.innerHTML = '🎉 Pagamento Confirmado!<br>Obrigado pela sua compra. Seu Pix foi aprovado.';
+            document.getElementById('pixPagamento').style.display = 'none';
+            limparCarrinho();
+        }
+
+        function calcularDigitoModulo11(numero) {
+            let peso = 2;
+            let soma = 0;
+
+            for (let indice = numero.length - 1; indice >= 0; indice -= 1) {
+                soma += Number(numero[indice]) * peso;
+                peso = peso === 9 ? 2 : peso + 1;
+            }
+
+            const digito = 11 - (soma % 11);
+            return digito === 0 || digito === 10 || digito === 11 ? 1 : digito;
+        }
+
+        function calcularDigitoModulo10(numero) {
+            let peso = 2;
+            let soma = 0;
+
+            for (let indice = numero.length - 1; indice >= 0; indice -= 1) {
+                const produto = Number(numero[indice]) * peso;
+                soma += Math.floor(produto / 10) + (produto % 10);
+                peso = peso === 2 ? 1 : 2;
+            }
+
+            return (10 - (soma % 10)) % 10;
+        }
+
+        function criarCodigoBarrasBoleto(valor) {
+            const valorEmCentavos = Math.round(valor * 100);
+            const valorFormatado = String(valorEmCentavos).padStart(10, '0');
+            const campoLivre = '0000000000000000000000000';
+            const semDigitoGeral = `9999${'1000'}${valorFormatado}${campoLivre}`;
+            const digitoGeral = calcularDigitoModulo11(semDigitoGeral);
+            const codigo = `${semDigitoGeral.slice(0, 4)}${digitoGeral}${semDigitoGeral.slice(4)}`;
+
+            const campo1 = `${codigo.slice(0, 4)}${codigo.slice(19, 24)}`;
+            const campo2 = codigo.slice(24, 34);
+            const campo3 = codigo.slice(34, 44);
+            const linhaDigitavel = [
+                `${campo1.slice(0, 5)}.${campo1.slice(5)}${calcularDigitoModulo10(campo1)}`,
+                `${campo2.slice(0, 5)}.${campo2.slice(5)}${calcularDigitoModulo10(campo2)}`,
+                `${campo3.slice(0, 5)}.${campo3.slice(5)}${calcularDigitoModulo10(campo3)}`,
+                String(digitoGeral),
+                codigo.slice(5, 19),
+            ].join(' ');
+
+            return { codigo, linhaDigitavel };
+        }
+
+        function mostrarBoleto(valor) {
+            const boleto = criarCodigoBarrasBoleto(valor);
+            const painelBoleto = document.getElementById('boletoPagamento');
+            const feedback = document.getElementById('feedbackBoleto');
+            const elementoCodigo = document.getElementById('codigoBarrasBoleto');
+
+            painelBoleto.style.display = 'block';
+            document.getElementById('linhaDigitavelBoleto').value = boleto.linhaDigitavel;
+            feedback.textContent = '';
+
+            if (typeof JsBarcode === 'undefined') {
+                elementoCodigo.replaceChildren();
+                feedback.textContent = 'Não foi possível carregar o gerador do código de barras. Você ainda pode copiar a linha digitável.';
+                return;
+            }
+
+            JsBarcode(elementoCodigo, boleto.codigo, {
+                format: 'ITF',
+                lineColor: '#000000',
+                width: 2,
+                height: 80,
+                displayValue: false,
+                margin: 8,
+            });
+        }
+
+        async function copiarLinhaDigitavel() {
+            const campoLinha = document.getElementById('linhaDigitavelBoleto');
+            const feedback = document.getElementById('feedbackBoleto');
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    try {
+                        await navigator.clipboard.writeText(campoLinha.value);
+                        feedback.textContent = 'Linha digitável copiada.';
+                        return;
+                    } catch (erro) {
+                        console.warn('A API de área de transferência não está disponível:', erro);
+                    }
+                }
+
+                campoLinha.focus();
+                campoLinha.select();
+                if (document.execCommand('copy')) {
+                    feedback.textContent = 'Linha digitável copiada.';
+                } else {
+                    feedback.textContent = 'Linha digitável selecionada. Copie-a manualmente.';
+                }
+            } catch (erro) {
+                console.error('Erro ao copiar a linha digitável:', erro);
+                feedback.textContent = 'Não foi possível copiar. Selecione a linha digitável acima e copie manualmente.';
+            }
+        }
+
+        function limparCarrinho() {
+            carrinho = [];
+            // Mantém a tela atualizada sem fechar o alerta de status imediatamente
+            document.getElementById('itensCarrinho').innerHTML = `<li style="color: #718096; text-align: center; padding: 20px 0;">O carrinho está vazio</li>`;
+            document.getElementById('valorTotal').innerText = "R\$ 0,00";
+            document.getElementById('checkoutForm').style.display = 'none';
+        }
+
+        document.getElementById('formaPagamento').addEventListener('change', () => {
+            document.getElementById('pixPagamento').style.display = 'none';
+            document.getElementById('boletoPagamento').style.display = 'none';
+            document.getElementById('cartaoPagamento').style.display = 'none';
+            document.getElementById('statusCompra').style.display = 'none';
+        });
+
+        // Inicia a vitrine ao carregar a página
+        carregarVitrine();
+    </script>
+</body>
+</html>
