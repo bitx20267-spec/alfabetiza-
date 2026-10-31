@@ -88,9 +88,11 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding-top: 2vh;
+    padding: 2vh 5% 0 5%;
 }
 .card{
+    display: flex;
+    justify-content: center;
     width: 70%;
     margin: 0.8vh 15%;
 }
@@ -161,19 +163,20 @@ li{
 }
 main{
     margin: auto 10% 0.2vh 10%;
-    padding-top: 10vh;
+    padding-top: 5vh;
 }
 
 
 .cards{
-    margin: 5vh 0;
+    margin: 1vh 0;
+    justify-content: center;
     
 }
 
 .card{
     margin: 0 8%;
     padding: 1vh 2rem;
-
+    width: 100%;
     }
 img{
     width: 4vh;
