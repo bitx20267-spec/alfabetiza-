@@ -156,7 +156,7 @@ main{
 }
 
 .card{
-    margin: 0 10%;
+    margin: 0 15%;
     padding: 1vh 2rem;
     width: 100%;
     }
@@ -177,7 +177,7 @@ main{
    }
     
 .cards{
-    margin: 2vh 0;
+    margin: 5vh 0 3vh 0;
     justify-content: center;    
 }
 
