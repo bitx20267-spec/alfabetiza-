@@ -72,7 +72,7 @@ main{
     justify-content: center;
     flex-direction: column;
     margin: 0 10% 0.2vh 10%;
-    padding-top: 3vh;
+    padding-top: 1.5vh;
     background: var(--caixa-texto);
     width: 80%;
     height: 110vh;
@@ -82,13 +82,13 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 0 5% 0 5%;
+    
 }
 .card{
-    display: flex;
+    display: flexbox;
     justify-content: center;
     width: 80%;
-    margin: 0.8vh 10%;
+    margin: 0.8vh 5%;
 }
 
 .card a{
@@ -108,22 +108,11 @@ main{
 }
 
 /* 
-a{
-    text-decoration: none;
-    color: var(--texto-claro);
-    text-align: center;
-    
-    background-color: var(--cor-botao2);
-    align-items: center; 
-    border-radius: 2vh;
-   
-    padding: 1vh 3vh;
-    
-} */
+ */
 
 
 .instrucoes{
-    display: flex;
+    display: flexbox;
     justify-content: center;
     flex-direction: column;
     padding: 1% 10%;
