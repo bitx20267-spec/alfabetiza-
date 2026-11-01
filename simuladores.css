@@ -77,15 +77,16 @@ main{
     height: 110vh;
 }
 .cards{
+    width: 90%;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 0 10%;
+    margin: 0 5%;
 }
 .card{
     display: flex;
     justify-content: center;
-    width: 80%;
+    width: 100%;
     margin: 0.8vh 0%;
 }
 
@@ -144,7 +145,7 @@ li{
 }
 main{
     margin: auto 10% 0.2vh 10%;
-    padding-top: 3vh;
+    padding-top: 5vh;
 }
 
 
