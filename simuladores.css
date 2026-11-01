@@ -82,13 +82,13 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    
+    margin: 0.8vh 10%;
 }
 .card{
     display: flexbox;
     justify-content: center;
     width: 80%;
-    margin: 0.8vh 5%;
+    
 }
 
 .card a{
