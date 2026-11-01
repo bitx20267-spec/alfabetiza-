@@ -156,7 +156,7 @@ main{
 }
 
 .card{
-    margin: 0 15%;
+    margin: 0 5%;
     padding: 1vh 2rem;
     width: 100%;
     }
@@ -172,7 +172,7 @@ h3{
 
 @media (max-width: 420px) {
 main{
-    padding-top: 10vh;
+    padding-top: 16vh;
     height: 150vh;
    }
     
