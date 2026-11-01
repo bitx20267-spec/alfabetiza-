@@ -150,7 +150,7 @@ main{
 
 
 .cards{
-    margin: 0;
+    margin: 5vh 0 3vh 0;
     justify-content: center;
     
 }
@@ -177,7 +177,7 @@ main{
    }
     
 .cards{
-    margin: 8vh 0 3vh 0;
+    margin: 1vh 0 3vh 0;
     justify-content: center;    
 }
 
