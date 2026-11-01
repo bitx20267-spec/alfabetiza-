@@ -169,3 +169,20 @@ h3{
     text-align: center;
 }
 }
+
+@media (max-width: 420px) {
+main{
+    padding-top: 10vh;
+    height: 120vh;
+   }
+    
+.cards{
+    margin: 2vh 0;
+    justify-content: center;    
+}
+
+.card a{
+    width: 80%;
+}
+       
+}
