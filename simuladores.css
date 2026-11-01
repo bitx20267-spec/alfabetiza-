@@ -146,18 +146,19 @@ li{
 }
 main{
     margin: auto 10% 0.2vh 10%;
-    padding-top: 5vh;
+    padding-top: 3vh;
 }
 
 
 .cards{
     margin: 0;
+    padding: 0 5%;
     justify-content: center;
     
 }
 
 .card{
-    margin: 0 8%;
+    margin: 0 10%;
     padding: 1vh 2rem;
     width: 100%;
     }
