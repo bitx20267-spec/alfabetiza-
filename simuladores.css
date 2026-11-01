@@ -31,13 +31,7 @@ header {
     color: var(--texto-claro);
 }
 /*
-.cabecalho {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;   
-    gap: 0;
-}*/
+*/
 .cabecalho {
     display: flex; 
     justify-content: space-between;
@@ -88,13 +82,13 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 2vh 5% 0 5%;
+    padding: 0 5% 0 5%;
 }
 .card{
     display: flex;
     justify-content: center;
-    width: 70%;
-    margin: 0.8vh 15%;
+    width: 80%;
+    margin: 0.8vh 10%;
 }
 
 .card a{
@@ -168,7 +162,7 @@ main{
 
 
 .cards{
-    margin: 1vh 0;
+    margin: 0;
     justify-content: center;
     
 }
