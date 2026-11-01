@@ -78,7 +78,7 @@ main{
 }
 .cards{
     width: 90%;
-    display: flex;
+    display: flexbox;
     justify-content: center;
     flex-direction: column;
     margin: 0 5%;
@@ -114,7 +114,7 @@ main{
     display: flexbox;
     justify-content: center;
     flex-direction: column;
-    padding: 1% 10%;
+    padding: 5% 10%;
 }
 h3{
     font-size: 1.5rem;
