@@ -72,7 +72,7 @@ main{
     justify-content: center;
     flex-direction: column;
     margin: 0 10% 0.2vh 10%;
-    padding-top: 1.5vh;
+    padding-top: 1vh;
     background: var(--caixa-texto);
     width: 80%;
     height: 110vh;
@@ -82,7 +82,7 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 0 10%;
+    padding: 0 5%;
 }
 .card{
     display: flex;
