@@ -82,19 +82,18 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 0.8vh 10%;
+    margin: 0 10%;
 }
 .card{
-    display: flexbox;
+    display: flex;
     justify-content: center;
     width: 80%;
-    
+    margin: 0.8vh 10%;
 }
 
 .card a{
     
-    display: flex;
-    justify-content: center;
+    
     text-decoration: none;
     color: var(--texto-claro);
     text-align: center;
