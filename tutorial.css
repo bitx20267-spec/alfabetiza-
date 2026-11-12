@@ -235,9 +235,13 @@ main{
     margin-top: 0;
     font-size: 1.3rem;    
     letter-spacing: 1px;
+    margin-botton: 5px;
 }
 header{
     padding: 1% 0%;
+}
+img #logobitX{
+    margin: auto;
 }
 
 /*---------------------------------------------*/
